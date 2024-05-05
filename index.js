@@ -8,7 +8,7 @@ const handleDownload = async () => {
         const ind = playlistId.lastIndexOf("list=");
         if (ind > 0) {
             playlistId = playlistId.substring(ind + 5);
-            const getData = await fetch(`https://youtube-downloader-api-vbw7.vercel.app/sendplaylistid`, {
+            const getData = await fetch(`http://localhost:3000/sendplaylistid`, {
                 method: "POST",
                 body: JSON.stringify({ playlistId: playlistId }),
                 headers: {
@@ -24,7 +24,20 @@ const handleDownload = async () => {
                 liList += `<li class="text-primary">${urlOfVideo}<span class="ml-5 text-success">in process</span></li>`;
                 function closer(videoId) {
                     setTimeout(() => {
-                        window.open(`https://youtube-downloader-api-vbw7.vercel.app/download?URL=https://www.youtube.com/watch?v=${videoId}`, "_blank");
+                        var newWindowAnchor = document.createElement('a');
+
+                        // Set the href attribute to the URL you want to open
+                        newWindowAnchor.href = `http://localhost:3000/download?URL=https://www.youtube.com/watch?v=${videoId}`;
+
+                        // Set the target attribute to _blank to open in a new window
+                        newWindowAnchor.target = '_blank';
+
+                        // Append the anchor element to the document body
+                        document.body.appendChild(newWindowAnchor);
+
+                        // Simulate a click on the anchor element to open the new window
+                        newWindowAnchor.click();
+                        // window.open(`https://youtube-downloader-api-vbw7.vercel.app/download?URL=https://www.youtube.com/watch?v=${videoId}`, "_blank");
                     }, 3000);
                 }
                 closer(videoId);
